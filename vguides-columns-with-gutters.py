@@ -4,34 +4,17 @@ from gimpfu import *
 import gtk
 
 
-def python_columnvguides(image, columns_num, gutter_width):
-    total_gutters_width = (columns_num + 1) * gutter_width
-    columns_available_width = image.width - total_gutters_width
-    column_width = columns_available_width / columns_num
-
-    offset = 0
-    for i in range(0, columns_num):
-        if gutter_width > 0:
-            offset += gutter_width
-            offset = int(offset)
-            pdb.gimp_image_add_vguide(image, offset)
-
-        offset += column_width
-        offset = int(offset)
-        pdb.gimp_image_add_vguide(image, offset)
-
-    return
-
-
 class VguidesWindow(gtk.Window):
     def __init__(self, img, *args):
         self.img = img
         win = gtk.Window.__init__(self, *args)
         self.connect("destroy", gtk.main_quit)
 
+        # default values
         self.columns_num = 6
         self.gutter_width = 50
 
+        # GUI
         self.set_border_width(10)
         vbox = gtk.VBox(spacing=10, homogeneous=False)
         self.add(vbox)
@@ -77,10 +60,9 @@ class VguidesWindow(gtk.Window):
 
         btn.show()
         hbox.show()
-
         vbox.show()
-
         self.show()
+
         return win
 
     def change_columns_num(self, val):
